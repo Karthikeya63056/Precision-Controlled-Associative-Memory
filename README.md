@@ -26,19 +26,39 @@ A selected attractor is corrupted with masking and Gaussian noise. Retrieval the
 The adaptive precision vector changes the geometry of the basin by scaling dimensions independently. High-confidence coordinates exert stronger pull; noisy or outlier coordinates are damped before they can dominate the Hopfield update.
 
 ---
+<<<<<<< HEAD
+=======
+
+## 🏗️ Architecture
+>>>>>>> 4a9f5bc1920f3fc63e969fba39d351074240ce4e
 
 ## 🌌 3D Architecture & Processing Workflow
 
+<<<<<<< HEAD
 > ✨ **Experience the architecture visually:** Open `showcase.html` in your browser for a premium interactive 3D breakdown of the system.
 
 The system operates across a multi-dimensional pipeline, seamlessly bridging the gap between raw, noisy inputs and stable memory attractors through a series of precision-steered transformations.
 
 ### 1. The Attractor Manifold (Initialization)
 The system stores $K$ normalized memory attractors forming a dense $K \times 64$ hyperspace. A similarity graph is constructed to define the baseline energy topography, establishing the "valleys" (attractors) that queries will gravitate towards.
+=======
+**Core Modules:**
+- 🧠 `anvil_pcam/core/memory.py`: Deterministic 64D attractor bank and similarity graph.
+- 🌫️ `anvil_pcam/core/noise.py`: Masking plus Gaussian corruption simulation.
+- 🎯 `anvil_pcam/core/precision.py`: Exact `predict_precision(corrupted_query)` interface.
+- 🔄 `anvil_pcam/core/dynamics.py`: Modern Hopfield-style iterative retrieval and energy traces.
+- 📊 `anvil_pcam/core/evaluation.py`: Baseline/adaptive comparison metrics.
+- 🌐 `anvil_pcam/web/`: Thin FastAPI dashboard for the interactive demo.
+
+---
+
+## 🎯 Precision Interface
+>>>>>>> 4a9f5bc1920f3fc63e969fba39d351074240ce4e
 
 ### 2. Signal Corruption (Input Phase)
 A selected memory is subjected to severe masking and Gaussian interference. This simulates chaotic, real-world partial observations, pushing the query vector far from its original basin of attraction.
 
+<<<<<<< HEAD
 ### 3. Precision Projection & Discrimination (The Adapter)
 Our state-of-the-art **PrecisionFlow v9.0** engine intercepts the corrupted query and projects it across the manifold. 
 - **Noise-Adaptive Scaling:** Evaluates the corruption severity via cosine similarity, triggering intense anisotropic scaling when noise is high.
@@ -55,9 +75,59 @@ $$ \xi_{t+1,j} = \text{normalize}(\xi_t + \alpha_j (c_t - \xi_t)) \quad \text{wh
 
 This violent shedding of noise allows the query to snap reliably into the target attractor.
 ---
+=======
+```python
+def predict_precision(corrupted_query: np.ndarray) -> np.ndarray:
+    """
+    corrupted_query : ndarray (64,)
+    returns         : ndarray (64,) positive precision values
+    """
+```
+
+**Guarantees:**
+- Output shape is `(64,)`
+- All values are strictly positive
+- Values are clipped to `[0.1, 10.0]`
+- Mean precision is normalized to `1`
+
+### 🚀 Reference Adapter: PrecisionFlow v9.0
+
+The default adapter in `adapters/myteam.py` implements **PrecisionFlow v9.0**, combining:
+1. **Noise-Adaptive Scaling**: Detects corruption severity via cosine similarity, adjusting anisotropy intensity.
+2. **Projection Component**: Amplifies dimensions aligned with the best-matching attractor and suppresses residuals.
+3. **Discriminative Component**: Identifies the top-2 confusable attractors and emphasises dimensions where they differ.
+
+---
+
+## 🔄 Retrieval Dynamics
+>>>>>>> 4a9f5bc1920f3fc63e969fba39d351074240ce4e
 
 ## 🚀 Run Locally
 
+<<<<<<< HEAD
+=======
+$$ s_i = x_i^T \Pi \xi_t $$
+$$ a = \text{softmax}(\beta s) $$
+$$ c_t = \text{normalize}(a^T X) $$
+
+The state update is anisotropic:
+
+$$ \xi_{t+1,j} = \text{normalize}(\xi_t + \alpha_j (c_t - \xi_t)) $$
+$$ \alpha_j \propto \sqrt{\Pi_{jj}} $$
+
+**Dashboard Visualizations:**
+- 64-value precision heatmap
+- Noisy query vector strip
+- Attractor convergence trajectory
+- Energy landscape curve
+- Memory attractor graph
+- Baseline `Π = I` vs Adaptive `Π` metrics
+
+---
+
+## 🚀 Run Locally
+
+>>>>>>> 4a9f5bc1920f3fc63e969fba39d351074240ce4e
 Use **Python 3.11+**. Run all commands from the repository root.
 
 ### Windows PowerShell
