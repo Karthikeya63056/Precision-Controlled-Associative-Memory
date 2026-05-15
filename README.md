@@ -104,26 +104,104 @@ The dashboard visualizes:
 
 ## Run Locally
 
-```bash
+Use Python 3.11 or newer. Run all commands from the repository root, the folder that contains this `README.md`.
+
+### Windows PowerShell
+
+```powershell
+cd D:\Anvil-PCAM
+py -3 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
 pip install -e ".[dev]"
 anvil-pcam serve --port 8420
 ```
 
-Open `http://127.0.0.1:8420`.
+If PowerShell blocks virtual environment activation, enable it for this terminal session and activate again:
 
-Command-line trial:
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\.venv\Scripts\Activate.ps1
+```
+
+Open `http://127.0.0.1:8420` after the server starts.
+
+### Linux / macOS
+
+```bash
+cd /path/to/Anvil-PCAM
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+pip install -e ".[dev]"
+anvil-pcam serve --port 8420
+```
+
+Open `http://127.0.0.1:8420` after the server starts.
+
+### Terminal-Only Commands
+
+Run one noisy retrieval trial:
 
 ```bash
 anvil-pcam demo --pattern A03 --sigma 0.58 --mask 0.28
 ```
 
-Bank-level robustness check:
+Run the built-in attractor-bank benchmark:
 
 ```bash
 anvil-pcam benchmark
 ```
 
-Docker:
+Run the adapter smoke test:
+
+```bash
+python test_engine.py
+```
+
+## Official P-04 Harness
+
+The submission adapter lives at `adapters/myteam.py`. For local scoring, clone the official harness and copy only this adapter into the harness adapter folder. Do not edit the other harness files.
+
+### Windows PowerShell
+
+From the repository root:
+
+```powershell
+git clone https://github.com/Sauhard74/Anvil-P-E
+cd Anvil-P-E\bench-p04-pcam
+pip install -r requirements.txt
+
+python -X utf8 self_check.py --adapter adapters.dummy:DummyAgent --quick
+
+Copy-Item ..\..\adapters\myteam.py .\adapters\myteam.py -Force
+
+python -X utf8 self_check.py --adapter adapters.myteam:Engine --quick
+python -X utf8 run.py --adapter adapters.myteam:Engine --seeds 7 13 31 97 211 503 1009 --out report.json
+```
+
+If Windows cannot find `python`, use `py -3` in place of `python`.
+
+### Linux / macOS
+
+From the repository root:
+
+```bash
+git clone https://github.com/Sauhard74/Anvil-P-E
+cd Anvil-P-E/bench-p04-pcam
+pip install -r requirements.txt
+
+python self_check.py --adapter adapters.dummy:DummyAgent --quick
+
+cp ../../adapters/myteam.py adapters/myteam.py
+
+python self_check.py --adapter adapters.myteam:Engine --quick
+python run.py --adapter adapters.myteam:Engine --seeds 7 13 31 97 211 503 1009 --out report.json
+```
+
+If `Anvil-P-E` is already cloned, skip the `git clone` line. The full run writes `report.json` inside `Anvil-P-E/bench-p04-pcam`.
+
+## Docker
 
 ```bash
 docker compose up --build
