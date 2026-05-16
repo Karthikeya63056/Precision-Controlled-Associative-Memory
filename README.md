@@ -20,7 +20,7 @@
 
 <br/>
 
-[🚀 Quick Start](#-run-locally) · [🏗️ Architecture](#%EF%B8%8F-system-architecture) · [🎯 PrecisionFlow Adapter](#-precisionflow-v90-adapter) · [🏆 Benchmark](#-official-p-04-harness) · [📡 API](#-api-reference)
+[🚀 Quick Start](#-run-locally) · [🏗️ Architecture](#%EF%B8%8F-system-architecture) · [🎯 PrecisionFlow Adapter](#-precisionflow-v90-adapter) · [🏆 Benchmark](#-official-p-04-harness) · [📡 API](#-api-reference) · [📚 References](REFERENCES.md)
 
 </div>
 
@@ -274,6 +274,21 @@ curl -X POST http://127.0.0.1:8420/api/pcam/trial \
   -H 'Content-Type: application/json' \
   -d '{"pattern_id":"A03","gaussian_sigma":0.58,"mask_fraction":0.28,"seed":2404}'
 ```
+
+---
+
+## 📚 Academic Foundations
+
+Every mathematical formula in PrecisionFlow v9.0 is grounded in peer-reviewed research. The full evidence document with paper citations, BibTeX, and formula-to-code mapping is in **[REFERENCES.md](REFERENCES.md)**.
+
+| Formula / Technique | Source Paper |
+|---|---|
+| Energy function & gradient descent | Hopfield (1982) · PNAS · [doi:10.1073/pnas.79.8.2554](https://doi.org/10.1073/pnas.79.8.2554) |
+| Softmax retrieval update rule | Ramsauer et al. (2021) · ICLR — [*Hopfield Networks is All You Need*](https://arxiv.org/abs/2008.02217) |
+| Hessian $H = R - \eta\beta X^T(\text{diag}(s)-ss^T)X$ | [ResearchGate #386081239](https://www.researchgate.net/publication/386081239_The_Mathematics_of_Hopfield_Networks_From_Neural_Relationships_to_Memory_Mechanisms) (2024) |
+| Minimise $\kappa(\Pi^{1/2}H\Pi^{1/2})$, gradient $v_{\max}^2 - v_{\min}^2$ | Qu, Gao & Hinder (2024) — [arXiv:2209.00809](https://arxiv.org/abs/2209.00809) |
+| Projection-residual signal decomposition | Haykin (1999) · *Neural Networks*, Ch. 10 |
+| Discriminative precision lens | Goldberger et al. (2005) · NeurIPS — [*Neighbourhood Components Analysis*](https://proceedings.neurips.cc/paper/2004/hash/42fe880812925e520249e808937738d2-Abstract.html) |
 
 ---
 
