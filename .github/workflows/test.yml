@@ -23,22 +23,8 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Cache HuggingFace models
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/huggingface
-          key: hf-models-bge-small-v1
-
       - name: Install
         run: pip install -e ".[dev]"
-
-      - name: Download models
-        run: |
-          python -c "
-          from sentence_transformers import SentenceTransformer
-          SentenceTransformer('BAAI/bge-small-en-v1.5')
-          print('bge-small downloaded')
-          "
 
       - name: Run tests
         run: pytest tests/ -v --tb=short
